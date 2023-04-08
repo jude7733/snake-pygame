@@ -10,3 +10,7 @@ or install python3, pygame, pygame-menu using pip
 
 
 SCREENSHOTS
+
+![My Image](Screenshots/MAINMENU.png)
+
+![My Image](Screenshots/SNAKEGAME.png)
