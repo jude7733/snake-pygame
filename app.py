@@ -30,25 +30,25 @@ def playgame():
             self.direction = Vector2(1,0)
             self.new_block = False
 
-            self.head_up = pygame.image.load("Snake/Graphics/head_up.png").convert_alpha()
-            self.head_down = pygame.image.load("Snake/Graphics/head_down.png").convert_alpha()
-            self.head_right = pygame.image.load("Snake/Graphics/head_right.png").convert_alpha()
-            self.head_left = pygame.image.load("Snake/Graphics/head_left.png").convert_alpha()
+            self.head_up = pygame.image.load("Graphics/head_up.png").convert_alpha()
+            self.head_down = pygame.image.load("Graphics/head_down.png").convert_alpha()
+            self.head_right = pygame.image.load("Graphics/head_right.png").convert_alpha()
+            self.head_left = pygame.image.load("Graphics/head_left.png").convert_alpha()
         
-            self.tail_up = pygame.image.load('Snake/Graphics/tail_up.png').convert_alpha()
-            self.tail_down = pygame.image.load('Snake/Graphics/tail_down.png').convert_alpha()
-            self.tail_right = pygame.image.load('Snake/Graphics/tail_right.png').convert_alpha()
-            self.tail_left = pygame.image.load('Snake/Graphics/tail_left.png').convert_alpha()
+            self.tail_up = pygame.image.load('Graphics/tail_up.png').convert_alpha()
+            self.tail_down = pygame.image.load('Graphics/tail_down.png').convert_alpha()
+            self.tail_right = pygame.image.load('Graphics/tail_right.png').convert_alpha()
+            self.tail_left = pygame.image.load('Graphics/tail_left.png').convert_alpha()
         
-            self.body_vertical = pygame.image.load('Snake/Graphics/body_vertical.png').convert_alpha()
-            self.body_horizontal = pygame.image.load('Snake/Graphics/body_horizontal.png').convert_alpha()
+            self.body_vertical = pygame.image.load('Graphics/body_vertical.png').convert_alpha()
+            self.body_horizontal = pygame.image.load('Graphics/body_horizontal.png').convert_alpha()
         
-            self.body_tr = pygame.image.load('Snake/Graphics/body_tr.png').convert_alpha()
-            self.body_tl = pygame.image.load('Snake/Graphics/body_tl.png').convert_alpha()
-            self.body_br = pygame.image.load('Snake/Graphics/body_br.png').convert_alpha()
-            self.body_bl = pygame.image.load('Snake/Graphics/body_bl.png').convert_alpha()
+            self.body_tr = pygame.image.load('Graphics/body_tr.png').convert_alpha()
+            self.body_tl = pygame.image.load('Graphics/body_tl.png').convert_alpha()
+            self.body_br = pygame.image.load('Graphics/body_br.png').convert_alpha()
+            self.body_bl = pygame.image.load('Graphics/body_bl.png').convert_alpha()
 
-            self.crunch_sound =pygame.mixer.Sound("Snake/Sound/crunch.wav")
+            self.crunch_sound =pygame.mixer.Sound("Sound/crunch.wav")
 
         def reset(self):
             main_menu()
@@ -207,8 +207,8 @@ def playgame():
     cell_number = 19
     screen = pygame.display.set_mode((cell_number*cell_size , cell_number*cell_size))
     clock = pygame.time.Clock()
-    apple = pygame.image.load("Snake/Graphics/apple.png").convert_alpha()
-    game_font = pygame.font.Font("Snake/Font/PoetsenOne-Regular.ttf",25)
+    apple = pygame.image.load("Graphics/apple.png").convert_alpha()
+    game_font = pygame.font.Font("Font/PoetsenOne-Regular.ttf",25)
 
 
     SCREEN_UPDATE = pygame.USEREVENT
@@ -289,7 +289,7 @@ def main_menu():
         table.add_row([topPlayer, secondScore], cell_align=pygame_menu.locals.ALIGN_CENTER)
         highscoremenu.mainloop(surface)
     
-    menu.add.text_input('Name :', default='Jerry',onchange=MyTextValue)
+    menu.add.text_input('Name :', default=' Jerry',onchange=MyTextValue)
     menu.add.selector('Difficulty :', [('Hard', 1), ('Easy', 2)], onchange=set_difficulty)
     menu.add.button('Play', playgame)
     menu.add.button('High-scores', score)
