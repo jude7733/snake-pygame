@@ -1,5 +1,5 @@
 # snake-pygame
-standalone from fork of snake-game repository
+Standalone from fork of snake-game repository
 uses pygame and pygame-menu to make a classic snake game
 
 install required packages by running command:
