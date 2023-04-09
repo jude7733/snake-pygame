@@ -2,7 +2,6 @@ import pygame,sys,random
 from pygame.math import Vector2
 import pygame_menu
 
-
 def playgame():
     
     class FRUIT:
@@ -20,9 +19,7 @@ def playgame():
             self.x = random.randint(0,cell_number - 1)
             self.y = random.randint(0,cell_number - 1)
             self.pos = pygame.math.Vector2(self.x,self.y)
-
    
-
 
     class SNAKE:
         def __init__(self):
@@ -58,7 +55,6 @@ def playgame():
             self.update_tail_graphics()
 
 
-
             for index,block in enumerate(self.body):
                 x_pos = int(block.x * cell_size)
                 y_pos = int(block.y * cell_size)
@@ -84,8 +80,6 @@ def playgame():
                             screen.blit(self.body_tr,block_rect)
                         elif previous_block.x == 1 and next_block.y == 1 or previous_block.y == 1 and next_block.x == 1:
                             screen.blit(self.body_br,block_rect)
-
-
 
 
         def update_head_graphics(self):
@@ -126,7 +120,6 @@ def playgame():
 
         def play_crunch_sound(self):
             self.crunch_sound.play()
-
 
 
     class MAIN:
@@ -245,19 +238,14 @@ def playgame():
 
 # main menu pygame window
 def main_menu():
-    
-    topPlayer = 'player'
-    
+       
     pygame.init()
     surface = pygame.display.set_mode((800, 600))
     menu = pygame_menu.Menu('Snake Game', 800, 600,theme=pygame_menu.themes.THEME_SOLARIZED)
-    
-
 
     def set_difficulty(value, difficulty):
         pass
       
-
     def MyTextValue(name):
     #on input change your value is returned here
         global topPlayer
@@ -275,11 +263,9 @@ def main_menu():
         elif score_text > secondScore:
             secondScore = score_text
             
-
     def score():
         highscoremenu = pygame_menu.Menu('High Scores', 800, 600,theme=pygame_menu.themes.THEME_SOLARIZED)
         highscoremenu.add.button('Back', main_menu)
-        #highscoremenu.add.label('High Scores')
         table = highscoremenu.add.table(table_id='Top Scores', font_size=20)
         table.default_cell_padding = 5
         table.default_row_background_color = 'white'
@@ -297,5 +283,7 @@ def main_menu():
     menu.mainloop(surface)
 topScore = 0
 secondScore = 0
+topPlayer = 'player'
+
 playgame()
 main_menu()
