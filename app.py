@@ -3,7 +3,8 @@ from pygame.math import Vector2
 import pygame_menu
 
 def playgame():
-    
+    gamestatus = 'played'
+    print(gamestatus)
     class FRUIT:
         def __init__(self):
             self.randomize()
@@ -198,9 +199,13 @@ def playgame():
     clock = pygame.time.Clock()
     apple = pygame.image.load("Graphics/apple.png").convert_alpha()
     game_font = pygame.font.Font("Font/PoetsenOne-Regular.ttf",25)
-
+    
     SCREEN_UPDATE = pygame.USEREVENT
-    pygame.time.set_timer(SCREEN_UPDATE,150)
+
+    if level == 'Hard':
+        pygame.time.set_timer(SCREEN_UPDATE,150)
+    elif level == 'Easy':
+        pygame.time.set_timer(SCREEN_UPDATE,200)
 
     main_game =MAIN()
 
@@ -232,17 +237,18 @@ def playgame():
 
 # main menu pygame window
 def main_menu():
+    print(gamestatus)
     global check_score
 
     pygame.init()
     surface = pygame.display.set_mode((760, 760))
     menu = pygame_menu.Menu('Snake Game', 760, 760,theme=pygame_menu.themes.THEME_SOLARIZED)
 
-    def set_difficulty(value, difficulty):
-        pass
+    def set_difficulty(value,difficulty):
+        global level
+        level = value[0][0]
       
-    def topname(name):
-    #on input change your value is returned here
+    def topname(name):      #on input change your value is returned here
         global topPlayer
         topPlayer = name
     
@@ -254,9 +260,9 @@ def main_menu():
         entername = pygame_menu.Menu('Enter Name', 760, 760,theme=pygame_menu.themes.THEME_SOLARIZED)
         entername.add.label('Enter Name', max_char=-1, font_size=30, font_color=(0, 99, 83))
         if status == 'top':
-            entername.add.text_input('Name : ', default='Jerry',onchange=topname)
+            entername.add.text_input('Name : ', default='',onchange=topname)
         elif status == 'second':
-            entername.add.text_input('Name : ', default='Jude',onchange=secondname)
+            entername.add.text_input('Name : ', default='',onchange=secondname)
         entername.add.button('OK', score)
         entername.mainloop(surface)
     
@@ -272,14 +278,17 @@ def main_menu():
             enter_name()
            
     def score():
+        global gamestatus
+        if gamestatus == 'mainmenu':
+            level = ''
         highscoremenu = pygame_menu.Menu('High Scores', 760, 760,theme=pygame_menu.themes.THEME_SOLARIZED)
         highscoremenu.add.button('Back', main_menu)
         table = highscoremenu.add.table(table_id='Top Scores', font_size=20)
         table.default_cell_padding = 5
         table.default_row_background_color = 'white'
-        table.add_row(['Name', 'score'],cell_font=pygame_menu.font.FONT_OPEN_SANS_BOLD)
-        table.add_row([topPlayer, topScore], cell_align=pygame_menu.locals.ALIGN_CENTER)
-        table.add_row([secondPlayer, secondScore], cell_align=pygame_menu.locals.ALIGN_CENTER)
+        table.add_row(['Name', 'score','level'],cell_font=pygame_menu.font.FONT_OPEN_SANS_BOLD)
+        table.add_row([topPlayer, topScore, level], cell_align=pygame_menu.locals.ALIGN_CENTER)
+        table.add_row([secondPlayer, secondScore, level], cell_align=pygame_menu.locals.ALIGN_CENTER)
         highscoremenu.mainloop(surface)
     
     menu.add.selector('Difficulty :', [('Hard', 1), ('Easy', 2)], onchange=set_difficulty)
@@ -293,4 +302,6 @@ secondScore = 0
 topPlayer = 'player1'
 secondPlayer = 'player2'
 score_text = 0
+gamestatus = 'mainmenu'
+level = 'Hard'
 main_menu()
