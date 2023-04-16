@@ -2,10 +2,8 @@ import pygame,sys,random
 from pygame.math import Vector2
 import pygame_menu
 
-def playgame():
-    gamestatus = 'played'
-    print(gamestatus)
-    class FRUIT:
+def playgame():         #playgame function, this includes the main game loop
+    class FRUIT:        #fruit class
         def __init__(self):
             self.randomize()
 
@@ -19,7 +17,7 @@ def playgame():
             self.pos = pygame.math.Vector2(self.x,self.y)
    
 
-    class SNAKE:
+    class SNAKE:    #snake class loaded from different file
         def __init__(self):
             self.body = [Vector2(5,10),Vector2(4,10),Vector2(3,10)]
             self.direction = Vector2(1,0)
@@ -45,11 +43,11 @@ def playgame():
 
             self.crunch_sound =pygame.mixer.Sound("Sound/crunch.wav")
 
-        def reset(self):
+        def reset(self):    #reset function used after game over after checking score
             check_score(score_text)
             main_menu()
 
-        def draw_snake(self):
+        def draw_snake(self):   #draw snake function
             self.update_head_graphics()
             self.update_tail_graphics()
 
@@ -80,7 +78,7 @@ def playgame():
                             screen.blit(self.body_br,block_rect)
 
 
-        def update_head_graphics(self):
+        def update_head_graphics(self):     #update head graphics function after each move
             head_relation = self.body[1] - self.body[0]
             if head_relation ==Vector2(1,0):
                 self.head = self.head_left
@@ -91,7 +89,7 @@ def playgame():
             elif head_relation ==Vector2(0,-1):
                 self.head = self.head_down
 
-        def update_tail_graphics(self):
+        def update_tail_graphics(self):     #update tail graphics function after each move
             tail_relation = self.body[-2] - self.body[-1]
             if tail_relation ==Vector2(1,0):
                 self.tail = self.tail_left
@@ -102,7 +100,7 @@ def playgame():
             elif tail_relation ==Vector2(0,-1):
                 self.tail = self.tail_down
 
-        def move_snake(self):
+        def move_snake(self):       #move snake function after each move
             if self.new_block == True:
                 body_copy = self.body[:]
                 body_copy.insert(0,body_copy[0] + self.direction)
@@ -113,30 +111,30 @@ def playgame():
                 body_copy.insert(0,body_copy[0] + self.direction)
                 self.body =body_copy[:]
 
-        def add_block(self):
+        def add_block(self):    #add snake body function after eating fruit
             self.new_block = True
 
-        def play_crunch_sound(self):
+        def play_crunch_sound(self):    #play crunch sound function after eating fruit
             self.crunch_sound.play()
 
 
-    class MAIN:
-        def __init__(self):
+    class MAIN:    #main class
+        def __init__(self):    #init snake and fruit objects
             self.snake = SNAKE()
             self.fruit = FRUIT()
     
-        def update(self):
+        def update(self):   #update function for snake and fruit objects
             self.snake.move_snake()
             self.check_hit()
             self.check_fail()
 
-        def draw_elements(self):
+        def draw_elements(self):    #draw elements function for snake, fruit and score objects
             self.draw_grass()
             self.fruit.draw_fruit()
             self.snake.draw_snake()
             self.draw_score()
 
-        def check_hit(self):
+        def check_hit(self):    #check hit function for snake and fruit objects
             if self.fruit.pos == self.snake.body[0]:
                 self.fruit.randomize()
                 self.snake.add_block()
@@ -146,7 +144,7 @@ def playgame():
                 if block == self.fruit.pos:
                     self.fruit.randomize()
     
-        def check_fail(self):
+        def check_fail(self):   #check fail function to check if snake hits the wall or itself
             if not 0 <= self.snake.body[0].x < cell_number or not 0 <= self.snake.body[0].y < cell_number:
                 self.game_over()
         
@@ -154,10 +152,10 @@ def playgame():
                 if block == self.snake.body[0]:
                     self.game_over()
 
-        def game_over(self):
+        def game_over(self):    #game over function to reset the game
             self.snake.reset()
     
-        def draw_grass(self):
+        def draw_grass(self):   #draw grass function to create the grass background
             grass_color = (167,209,61)
 
             for row in range(cell_number):
@@ -172,7 +170,7 @@ def playgame():
                             grass_rect = pygame.Rect(col * cell_size,row * cell_size,cell_size,cell_size)
                             pygame.draw.rect(screen,grass_color,grass_rect)
 
-        def draw_score(self):
+        def draw_score(self):   #draw score on bottom right corner of the screen
             global score_text
             score_text = int(len(self.snake.body) - 3)
             static = str(len(self.snake.body) - 3)
@@ -184,9 +182,7 @@ def playgame():
             bg_rect = pygame.Rect(apple_rect.left,apple_rect.top,apple_rect.width + score_rect.width + 8,apple_rect.height)
         
             pygame.draw.rect(screen,(167,209,61),bg_rect)
-        
             screen.blit(score_surface,score_rect)
-
             screen.blit(apple,apple_rect)
             pygame.draw.rect(screen,(56,74,12),bg_rect,2)
 
@@ -200,23 +196,23 @@ def playgame():
     apple = pygame.image.load("Graphics/apple.png").convert_alpha()
     game_font = pygame.font.Font("Font/PoetsenOne-Regular.ttf",25)
     
-    SCREEN_UPDATE = pygame.USEREVENT
+    SCREEN_UPDATE = pygame.USEREVENT      #set screen update event
 
-    if level == 'Hard':
+    if level == 'Hard':    #set level
         pygame.time.set_timer(SCREEN_UPDATE,150)
     elif level == 'Easy':
         pygame.time.set_timer(SCREEN_UPDATE,200)
 
-    main_game =MAIN()
+    main_game =MAIN()   #create main game object
 
     while True:
         for event in pygame.event.get():
-            if event.type == pygame.QUIT:
+            if event.type == pygame.QUIT:   #quit game
                 pygame.quit()
                 sys.exit()    
-            if event.type == SCREEN_UPDATE:
+            if event.type == SCREEN_UPDATE:    #update screen
                 main_game.update()
-            if event.type ==pygame.KEYDOWN:
+            if event.type ==pygame.KEYDOWN:     #set key controls
                 if event.key == pygame.K_UP:
                     if main_game.snake.direction.y != 1:
                         main_game.snake.direction =Vector2(0,-1)
@@ -230,21 +226,20 @@ def playgame():
                     if main_game.snake.direction.y != -1:
                         main_game.snake.direction =Vector2(0,1)
 
-        screen.fill((175,215,70))
-        main_game.draw_elements()
-        pygame.display.update()
-        clock.tick(60)
+        screen.fill((175,215,70))   #set background color
+        main_game.draw_elements()   #draw elements
+        pygame.display.update()     #update display
+        clock.tick(60)      #set fps
 
 # main menu pygame window
 def main_menu():
-    print(gamestatus)
     global check_score
 
     pygame.init()
-    surface = pygame.display.set_mode((760, 760))
+    surface = pygame.display.set_mode((760, 760))   #set window size
     menu = pygame_menu.Menu('Snake Game', 760, 760,theme=pygame_menu.themes.THEME_SOLARIZED)
 
-    def set_difficulty(value,difficulty):
+    def set_difficulty(value,difficulty):   #set difficulty, on return here from difficulty selection
         global level
         level = value[0][0]
       
@@ -252,56 +247,58 @@ def main_menu():
         global topPlayer
         topPlayer = name
     
-    def secondname(name):
+    def secondname(name):   #on input change your value is returned here
         global secondPlayer
         secondPlayer = name
     
-    def enter_name():
+    def enter_name():    #enter name function if score is top or second
         entername = pygame_menu.Menu('Enter Name', 760, 760,theme=pygame_menu.themes.THEME_SOLARIZED)
         entername.add.label('Enter Name', max_char=-1, font_size=30, font_color=(0, 99, 83))
         if status == 'top':
             entername.add.text_input('Name : ', default='',onchange=topname)
         elif status == 'second':
             entername.add.text_input('Name : ', default='',onchange=secondname)
-        entername.add.button('OK', score)
-        entername.mainloop(surface)
+        entername.add.button('OK', scoreboard)
+        entername.mainloop(surface)     #enter name menu loop
     
-    def check_score(score_text):
-        global topScore,secondScore,status
+    def check_score(score_text):    #check score function to check if score is top or second
+        global topScore,secondScore,status,toplevel,secondlevel
         if score_text > topScore:
             topScore = score_text
-            status = 'top'
+            status = 'top'      #set status to top for enter name function
+            toplevel = level
             enter_name()
         elif score_text > secondScore:
             secondScore = score_text
-            status = 'second'
+            status = 'second'       #set status to second for enter name function
+            secondlevel = level
             enter_name()
            
-    def score():
-        global gamestatus
-        if gamestatus == 'mainmenu':
-            level = ''
+    def scoreboard():   #scoreboard function to display top and second scores
         highscoremenu = pygame_menu.Menu('High Scores', 760, 760,theme=pygame_menu.themes.THEME_SOLARIZED)
         highscoremenu.add.button('Back', main_menu)
-        table = highscoremenu.add.table(table_id='Top Scores', font_size=20)
+        table = highscoremenu.add.table(table_id='Top Scores', font_size=30)
         table.default_cell_padding = 5
         table.default_row_background_color = 'white'
-        table.add_row(['Name', 'score','level'],cell_font=pygame_menu.font.FONT_OPEN_SANS_BOLD)
-        table.add_row([topPlayer, topScore, level], cell_align=pygame_menu.locals.ALIGN_CENTER)
-        table.add_row([secondPlayer, secondScore, level], cell_align=pygame_menu.locals.ALIGN_CENTER)
+        table.add_row(['Name', 'Score','Level'],cell_font=pygame_menu.font.FONT_OPEN_SANS_BOLD)
+        table.add_row([topPlayer, topScore, toplevel], cell_align=pygame_menu.locals.ALIGN_CENTER)
+        table.add_row([secondPlayer, secondScore, secondlevel], cell_align=pygame_menu.locals.ALIGN_CENTER)
         highscoremenu.mainloop(surface)
     
-    menu.add.selector('Difficulty :', [('Hard', 1), ('Easy', 2)], onchange=set_difficulty)
-    menu.add.button('Play', playgame)
-    menu.add.button('High-scores', score)
-    menu.add.button('Quit', pygame_menu.events.EXIT)
-    menu.mainloop(surface)
+    menu.add.selector('Difficulty :', [('Hard', 1), ('Easy', 2)], onchange=set_difficulty)      #add difficulty selector
+    menu.add.button('Play', playgame)       #add play button
+    menu.add.button('High-scores', scoreboard)      #add highscore button
+    menu.add.button('Quit', pygame_menu.events.EXIT)        #add quit button
+    menu.mainloop(surface)      #mainloop for menu
 
+#initialise variables
 topScore = 0
 secondScore = 0
-topPlayer = 'player1'
-secondPlayer = 'player2'
+topPlayer = 'player_1'
+secondPlayer = 'player_2'
 score_text = 0
-gamestatus = 'mainmenu'
 level = 'Hard'
+toplevel = ''
+secondlevel = ''
+
 main_menu()
