@@ -1,14 +1,15 @@
 #  **snake-pygame**
-Standalone from fork of snake-game repository
-uses pygame and pygame-menu to make a classic snake game. This repo is mainly used for learning.
+Standalone from fork of *Stalinosmj/Snake-game* repository. <br/>
+Uses pygame and pygame-menu to make a classic snake game. This repo is mainly used for learning.
 
 ### <u>Install required packages by running command in the game directory:</u>
 
 * *pip install -r requirements.txt*
 
-or install **python3, pygame, pygame-menu**
-
-
+**python3** must be installed in your computer. <br/>
+There is a bash script to run the game in venv.
+* *./execute.sh*
+<br/>
 ### SCREENSHOTS
 
 ![My Image](Screenshots/MAINMENU.png)
